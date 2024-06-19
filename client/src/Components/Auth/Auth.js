@@ -1,16 +1,24 @@
 import React, { useState, useEffect, useContext } from "react";
+//Importing React and specific hooks (useState for state management,
+// useEffect for side effects, useContext for accessing context).
 import { Outlet, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import data from "../../assets/data.json";
-import AuthContext from "../context/AuthContext";
-import axios from "../Api";
-import mapboxgl from "mapbox-gl";
-import "./map.css";
+//Importing components and hooks from react-router-dom for routing (Outlet for nested routes,
+// useNavigate for navigation, useParams for URL parameters).
+import data from "../../assets/data.json";//Importing JSON data from a local file.
+import AuthContext from "../context/AuthContext";//Importing the custom authentication context.
+import axios from "../Api";//Importing an Axios instance for making HTTP requests.
+import mapboxgl from "mapbox-gl";//Importing the Mapbox GL library for maps.
+import "./map.css";//Importing CSS for map styling.
 
 const Auth = (props) => {
+    //means that Axios, a popular HTTP client library, will include cookies and other credentials in requests it makes.
+    //This is useful when you need to make requests to an API that requires authentication or sessions.
     axios.defaults.withCredentials = true;
 
+    //Using useParams to extract URL parameters. This destructures type and handle from the URL. For example, in a URL like /auth/login/123, type would be login and handle would be 123.
     const { type, handle } = useParams();
+    //Using useState to create state variables and their corresponding setter functions.
     const [name, setName] = useState("");
     const [hospital, setHospital] = useState("");
     const [contactPerson, setContactPerson] = useState("");
@@ -29,31 +37,51 @@ const Auth = (props) => {
     const [auth, setAuth] = useState(0);
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
+    //Using useContext to access the AuthContext.
+//Destructuring getLoggedIn from the context. getLoggedIn is likely a function provided by AuthContext to check or update the logged-in status of the user.
     const { getLoggedIn } = useContext(AuthContext);
 
     const foodGroups = ['Non-Perishable Food','Perishable Food','Prepared Food','Baby Food and Formula','Snacks and Beverages'];
+    //Here, navigate becomes a function you can call to redirect the user to a different route.
+    //useNavigate() is a hook provided by react-router-dom.Navigate programmatically to different pages in your application.
     const navigate = useNavigate();
     const s1 = "mx-2 px-9 py-2 font-semibold rounded-full shadow-sm text-white-900 bg-blood hover:drop-shadow-md hover:opacity-80 cursor-pointer";
+    //If the type parameter is not "register" (could be something like "login" or "forgot-password"), setAuth(1) will be called, setting auth to 1.
+    //useEffect is a React Hook that runs side effects after rendering.
+    //In this case, it runs whenever type changes (which is a parameter extracted from the URL using useParams() earlier in your component).
+    //This ensures that the side effect (setAuth(...)) is applied whenever type changes.
     useEffect(() => {
-        setAuth(type === "register" ? 0 : 1);
+        setAuth(type === "register" ? 0 : 1); //if register then auth=0 else 1,used below
     }, [type]);
 
+    //useEffect is a React Hook used for performing side effects in functional components.
+//It runs after the component mounts and whenever any of its dependencies change (latitude or longitude in this case).
     useEffect(() => {
+        //if longitude is 0. If it is, the function returns early and does not proceed with creating the map.
+        //This prevents creating a map with an invalid or default location
         if (longitude == 0) return;
+        //Sets the Mapbox access token required to use Mapbox services. This token is essential for authenticating and authorizing access to Mapbox APIs.
         mapboxgl.accessToken = 'pk.eyJ1IjoiY29yb2JvcmkiLCJhIjoiY2s3Y3FyaWx0MDIwbTNpbnc4emxkdndrbiJ9.9KeSiPVeMK0rWvJmTE0lVA';
-
+//container: Specifies the ID of the HTML element ('map') where the map should be rendered.
+//style: Specifies the map style using a Mapbox style URL ('mapbox://styles/mapbox/streets-v12').center: Sets the initial center of the map using [longitude, latitude].
+//zoom: Sets the initial zoom level of the map (here, 10.7).
         var map = new mapboxgl.Map({
             container: 'map', style: 'mapbox://styles/mapbox/streets-v12',
             center: [longitude, latitude], zoom: 10.7
         });
+        //Creates a new Mapbox marker and sets its longitude (longitude) and latitude (latitude) using setLngLat.
+        //Adds the marker to the map instance (map) created earlier using addTo.
         new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map);
     }, [latitude, longitude]);
 
     const signUp = async (e) => {
+        //you can control what happens after a user submits a form without letting the browser refresh the page or navigate to a new one automatically
+        //allowing for actions like validation or sending data to a server asynchronously without reloading the page.
         e.preventDefault();
         var formData;
         if (handle == "bank") {
             formData = {
+                //These are variables holding various details about the bank
                 name: name,
                 hospital: hospital,
                 contactPerson: contactPerson,
@@ -67,6 +95,7 @@ const Auth = (props) => {
                 address: address,
                 latitude: latitude,
                 longitude: longitude,
+                // This property is an object with keys representing different categories of stock and values initialized to 0
                 stock: { 'Non-Perishable Food':0,'Perishable Food':0,'Prepared Food':0,'Baby Food and Formula':0,'Snacks and Beverages' :0}
             };
         } else {
@@ -83,14 +112,22 @@ const Auth = (props) => {
                 address: address,
             };
         }
-
+  // sends a POST request to the server./auth/${handle}: The URL endpoint for authentication, dynamically determined by the value of handle.
+  //The data object containing form data to be sent to the server.
+  //Ensures that cookies and other credentials are included in the request, useful for maintaining a user session.
+  //async (res) => { ... }: Code to handle the successful response from the server. 
+  //rest error manage
         await axios.post(`/auth/${handle}`, formData, { withCredentials: true }).then(async (res) => { }, (err) => alert(err.response.data.errorMessage));
+        //await getLoggedIn();: This function call presumably updates the user's logged-in status or retrieves updated user information after the POST request completes. It's awaited to ensure it finishes before proceeding to the next step.
         await getLoggedIn();
+        //navigate(/${handle == "bank" ? handle : "user"}/profile): Redirects the user to their profile page after the authentication and login process completes depending upon it is bank or user
         navigate(`/${handle == "bank" ? handle : "user"}/profile`)
     };
 
     const logIn = async (e) => {
         e.preventDefault();
+        //login is asynchronous operations as server and client is involved in it so try catch used to save from crash due tonetwork issue
+        //signup is synchronous as client works only on info and error can be displayed to it at client side only,no need of try and catch
         try {
             const formData = {
                 phone: phone,
@@ -105,24 +142,39 @@ const Auth = (props) => {
     }
 
     const fetchGeo = async () => {
-        await navigator.geolocation.getCurrentPosition((p) => {
-            setLatitude(p.coords.latitude);
-            setLongitude(p.coords.longitude);
-        }, () => {
-            alert("Please allow location access");
-            setLatitude(0);
-            setLongitude(0);
-        }, {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-        });
-
+        // Using navigator.geolocation to get the current position
+        await navigator.geolocation.getCurrentPosition(
+            // Success callback function when position is obtained
+            (position) => {
+                // Set latitude and longitude using position data
+                setLatitude(position.coords.latitude);
+                setLongitude(position.coords.longitude);
+            },
+            // Error callback function when position retrieval fails
+            () => {
+                // Alert the user to allow location access
+                alert("Please allow location access");
+                // Set latitude and longitude to 0 as fallback values
+                setLatitude(0);
+                setLongitude(0);
+            },
+            // Options for geolocation request
+            {
+                //When set to true, the browser attempts to provide the most accurate location information possible using methods such as GPS.
+                enableHighAccuracy: true, // Prefer high accuracy location results
+                timeout: 5000, // Timeout after 5 seconds if location request takes too long
+                maximumAge: 0 // Don't use cached location data
+            }
+        );
     };
+    
 
     return (
         <div className="dark:bg-gray-bg">
             <section className="flex justify-center items-center">
+                {/*Dynamically sets the width of the element based on the auth variable:
+                   If auth is 0, sets the width to 10/12 of its container.
+                   Otherwise, sets the width to 4/12 of its container */}
                 <div className={`bg-white-900 rounded-xl p-6 w-${auth === 0 ? "10/12" : "4/12"} mt-5 drop-shadow-2xl pb-10 dark:drop-shadow-dark-2xl`}>
                     <form
                         className="space-y-7"
@@ -130,6 +182,7 @@ const Auth = (props) => {
                         onSubmit={auth === 0 ? signUp : logIn}
                     >
                         <fieldset className="border border-solid border-gray-300 px-12 py-5">
+                            {/*&nbsp:Represents a non-breaking space in HTML, used here for spacing around the text. */}
                             <legend className={`text-2xl font-bold mb-1 ${auth === 1 && "text-center"}`}>
                                 &nbsp;{handle === "bank" ? (auth === 1 ? "Food Bank Log In" : "Add Your Foodbank") : (handle === "donor" ? "Donor" : "Patient")} {handle !== "bank" && (auth === 0 ? "Sign Up" : "Log In")}&nbsp;
                             </legend>
@@ -146,12 +199,15 @@ const Auth = (props) => {
 
                                 <div className="grid grid-cols-3 gap-4">
                                     <div className="col-span-2"><label className="font-semibold leading-8">{handle === "bank" && "Food Bank "}Name:<font color="red">*</font></label>
+                                        
                                         <input
                                             className="w-full p-3 text-md border border-silver rounded"
                                             type="text"
+                                            //When handle is not equal to "bank", the placeholder text "Enter your full name" will be displayed.If handle is "bank", the placeholder attribute will not be set (or set to undefined), and therefore no placeholder text will appear.
+
                                             placeholder={handle !== "bank" && "Enter your full name"}
                                             required
-                                            onChange={(e) => setName(e.target.value)}
+                                            onChange={(e) => setName(e.target.value)}//setting value of name from input
                                         /></div>
                                     {
                                         handle === "bank" ?
@@ -203,7 +259,8 @@ const Auth = (props) => {
                                             <div>
                                                 <label for="food" className="font-semibold  leading-8">Food Group:<font color="red">*</font></label>
                                                 <select name="food" id="state" onChange={(e) => setFood(e.target.value)} className="w-full p-3 text-md border border-silver rounded">
-                                                    {
+                                                    {   //This expression generates a list of <option> elements based on the foodGroups array.
+                                                       //Each <option> has a unique value corresponding to its index (i) and displays the respective food group name (e).
                                                         foodGroups.map((e, i) => <option value={i}>{e}</option>)
                                                     }
                                                 </select>
@@ -216,6 +273,7 @@ const Auth = (props) => {
                                                     onChange={(e) => setMail(e.target.value)}
                                                 /></div></>
                                     }
+                                    {/*using mobile  when login and username when signup*/}
                                     <div><label className="font-semibold  leading-8">{auth === 0 ? "Mobile:" : "Username:"}<font color="red">*</font></label>
                                         <input
                                             className="w-full p-3 text-md border border-silver rounded"
@@ -228,6 +286,7 @@ const Auth = (props) => {
                                         <div>
                                             <label className="font-semibold  leading-8">Email:</label><font color="red">*</font>
                                             <input
+                                            // for bank getting bank mail as it is only for bank so up handle==bank is added in condition
                                                 className="w-full p-3 text-md border border-silver rounded"
                                                 type="email"
                                                 required
@@ -249,7 +308,10 @@ const Auth = (props) => {
                             </fieldset>
                                 <br />
                                 <fieldset className="border border-solid border-gray-300 px-7 py-5 pb-7">
+                                    
                                     <legend className="text-2xl font-bold">
+
+                          {/*adding "Food Bank" if handle equals "bank".to address else keep address as it iss */}
                                         &nbsp;{handle === "bank" && "Food Bank "}Address&nbsp;
                                     </legend>
 
@@ -339,8 +401,11 @@ const Auth = (props) => {
                             <br />
                             <center><input
                                 type="submit"
-                                className={s1 + (auth === 0 && " w-4/12")}
+                                ////adds the class w-4/12 (which sets the width to 4/12 of its container) conditionally when auth equals 0.
+                                className={s1 + (auth === 0 && " w-4/12")}//s1 us just a css whuch will add updated css as 1-4/12
+                                //when handle==bank and other 2 condn satisfies submit button disableed
                                 disabled={handle == "bank" && auth == 0 && longitude == 0}
+                                //if auth is 0 value=signup else login
                                 value={auth === 0 ? "Sign Up" : "Log In"}
                             /></center>
                         </fieldset>

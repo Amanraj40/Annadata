@@ -78,7 +78,7 @@ const Home = () => {
             </div>
             <br />
             <div className='w-full bg-blood text-white-900 h-max text-sm text-center font-bold'>
-                <code>ॐ BloodLink @ {new Date().getFullYear()} ॐ || Made with ❤️ by Ujjwal</code>
+                <code>  &copy; Annadata @ {new Date().getFullYear()}</code>
             </div>
         </div>
     )
