@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
+//button labeled "Menu" is clicked, it displays these options in a dropdown menu format.
+
 const DropDown = (props) => {
     const s1 = "rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap font-semibold hover:bg-blood hover:text-white-900";
     const s2 =

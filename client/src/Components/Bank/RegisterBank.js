@@ -28,14 +28,14 @@ const RegisterBank = (props) => {
             district: data.states[state].districts[district],
             address: address
         }
-        if (props.todo === "register") {
+        if (props.todo === "register") {//Register a New Camp: If props.todo is "register", it sends a POST request to the server to create a new food donation camp.
             await axios.post("/camps", formData, { withCredentials: true }).then((r) => {
-                alert("Registered New Blood Donation Camp ✅");
+                alert("Registered New Food Donation Camp ✅");
                 navigate("/bank/camps");
             }).catch((e) => {
                 alert("Something went wrong");
             })
-        } else {
+        } else {//Edit an Existing Camp: If props.todo is not "register", it performs some actions (though here it simply alerts "Edited").
             alert("Edited");
         }
     };

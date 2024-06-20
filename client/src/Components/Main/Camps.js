@@ -8,7 +8,7 @@ const Camps = () => {
     const [district, setDistrict] = useState(0);
     const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
     const [filtered, setFiltered] = useState([]);
-
+ //useeffect updates value od state,district and data whenever it changes
     useEffect(() => {
         axios.get(`/camps/allCamps/${data.states[state].state}/${data.states[state].districts[district]}/${date}`).then((r) => setFiltered(r.data)).catch((e) => alert("Something went wrong"));
     }, [state, district, date])
@@ -19,14 +19,14 @@ const Camps = () => {
                 <tr>
                     <td><label for="state" className="font-semibold  leading-8">State:<font color="red">*</font></label>
                         <select name="state" id="state" onChange={(e) => { setState(e.target.value); setDistrict(0); }} className="w-full p-3 text-md border border-silver rounded">
-                            {
+                            {    //select state of camp
                                 data.states.map((e, i) => <option value={i} selected={state === i}>{e.state}</option>)
                             }
                         </select>
                     </td>
                     <td><label for="district" className="font-semibold  leading-8">District:<font color="red">*</font></label>
                         <select name="district" id="district" onChange={(e) => { setDistrict(e.target.value); }} className="w-full p-3 text-md border border-silver rounded">
-                            {
+                            {   //select discrict of bank corresponding to state
                                 data.states[state].districts.map((e, i) => <option value={i} selected={district === i}>{e}</option>)
                             }
                         </select>
@@ -34,6 +34,7 @@ const Camps = () => {
                     <td>
                         <label for="district" className="font-semibold  leading-8">Date:<font color="red">*</font></label>
                         <input type="date" value={date} className="w-full p-3 text-md border border-silver rounded"
+                                 //set date
                             min={new Date().toISOString().split("T")[0]}
                             onChange={(e) => setDate(e.target.value)}
                         />
@@ -54,7 +55,7 @@ const Camps = () => {
                     <th className="p-3 text-md border border-silver rounded">Time</th>
                 </thead>
                 <tbody>
-                    {
+                    {   // printing camp data in filter section as all data is written oveer there and filter function is written in backend
                         filtered.map((e) =>
                             <tr>
                                 <td className="p-3 text-md border border-silver rounded">{new Date(e.date).toLocaleDateString()}</td>

@@ -23,26 +23,35 @@ const EditProfile = () => {
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
     useEffect(() => {
-        setName(user.name);
-        setHospital(user.hospital);
-        setContactPerson(user.contactPerson);
-        setCategory(user.category);
-        setWebsite(user.website);
-        setMail(user.email);
-        setPhone(user.phone);
+        // Set initial state values based on user data
+        setName(user.name);  // Sets the name from user data
+        setHospital(user.hospital);  // Sets the hospital from user data
+        setContactPerson(user.contactPerson);  // Sets the contact person from user data
+        setCategory(user.category);  // Sets the category from user data
+        setWebsite(user.website);  // Sets the website from user data
+        setMail(user.email);  // Sets the email from user data
+        setPhone(user.phone);  // Sets the phone number from user data
+        
+        // Loop through states array to find matching state and district
         data.states.map((e, i) => {
             if (e.state === user.state) {
-                setState(i);
-                setDistrict(e.districts.indexOf(user.district));
+                setState(i);  // Sets the state index
+                setDistrict(e.districts.indexOf(user.district));  // Sets the district index within the state
             }
         });
+    
+        // Set default password
         setPassword("Lorem ipsum dolor sit amet consectetur adipisicing elit.");
+    
+        // Set address, latitude, and longitude from user data
         setAddress(user.address);
         setLatitude(user.latitude);
         setLongitude(user.longitude);
     }, []);
-
+    
+    //Ensures the map and marker reflect the latest coordinates whenever the latitude or longitude changes
     useEffect(() => {
+        //Checks if longitude is equal to 0. If true, it immediately returns, preventing the execution of the rest of the code inside the effect function.
         if (longitude == 0) return;
         mapboxgl.accessToken = 'pk.eyJ1IjoiY29yb2JvcmkiLCJhIjoiY2s3Y3FyaWx0MDIwbTNpbnc4emxkdndrbiJ9.9KeSiPVeMK0rWvJmTE0lVA';
         var map = new mapboxgl.Map({
@@ -50,9 +59,10 @@ const EditProfile = () => {
             center: [longitude, latitude], zoom: 10.7
         });
         new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map);
-    }, [latitude, longitude]);
+    }, [latitude, longitude]);//Specifies [latitude, longitude] as the dependency array for the useEffect. This means the effect will run whenever latitude or longitude changes.
 
     const update = async (e) => {
+        //Creates a formData object that collects values from form inputs
         const formData = {
             name: name,
             email: mail,
@@ -67,33 +77,46 @@ const EditProfile = () => {
             website: website,
             category: category
         };
-
+       //axios.put to send an HTTP PUT request to the server at the /bank endpoint with the formData object.
         await axios.put(`/bank`, formData)
+          //If the request is successful (.then):
+          //Toggles the edit state variable using setEdit(!edit).
+         //Calls the getLoggedIn function to refresh the authentication status or user data.
+         //Displays a success alert saying "Blood Bank updated successfully".
             .then(async (response) => {
                 setEdit(!edit);
+                //By calling getLoggedIn, any changes made to the blood bank details are immediately fetched and displayed in the application, keeping the user interface in sync with the latest data
+               // here edit becomes false after this database data gets updated and edit is made true(line 45 of CampsCheck resolves put request and at last line after updation makes it true to be aditable again)
                 await getLoggedIn();
                 alert("Blood Bank updated successfully");
             }, (error) => {
                 alert("Something went wrong");
             });
     };
-
+    //updating longitude and latitude if it got changes while updation
     const fetchGeo = async () => {
+        //if no change in latitude and longitude no need to do anything
         if (latitude == user.latitude && longitude == user.longitude) return;
         await navigator.geolocation.getCurrentPosition((p) => {
+            //on success It updates the state variables latitude and longitude with the coordinates obtained from the p.coords object.
             setLatitude(p.coords.latitude);
             setLongitude(p.coords.longitude);
         }, () => {
+            //on failure, this callback is executed.
+            //t resets the state variables latitude and longitude to the user's saved values.
             alert("Please allow location access");
             setLatitude(user.latitude);
             setLongitude(user.longitude);
         }, {
             enableHighAccuracy: true,
             timeout: 5000,
-            maximumAge: 0
+            maximumAge: 0//Prevents the use of cached location data.
         });
 
     };
+    //The fetchGeo function ensures that the current geographical coordinates of the user are fetched and updated in the state.
+    // It handles both success and error scenarios and ensures that the coordinates are only fetched if they have changed 
+    //from the user's saved values. If the user denies location access, it alerts them and resets the coordinates to the saved values.
 
     return (
         <div>
@@ -114,7 +137,7 @@ const EditProfile = () => {
                                     required
                                     disabled={edit}
                                     value={name}
-                                    onChange={(e) => { setName(e.target.value) }}
+                                    onChange={(e) => { setName(e.target.value) }}//name set
                                 />
                             </td>
                             <td>
@@ -152,7 +175,7 @@ const EditProfile = () => {
                                     type="number"
                                     placeholder="Enter your mobile"
                                     required
-                                    disabled={edit}
+                                    disabled={edit}//When edit is true: The button will be disabled, 
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
                                 />
