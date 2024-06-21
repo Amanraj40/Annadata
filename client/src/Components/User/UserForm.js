@@ -33,20 +33,32 @@ const UserForm = () => {
         setGender(me ? user.gender : "male")
     }, [me]);
 
-    const donate = () => {
-        const formData = {
-            bankId: bank,
-            units: units,
-            disease: desc
-        };
-        axios.post("/user/donate", formData, { withCredentials: true }).then((r) => {
+    //donate food
+    // donate function: Handles the donation process
+const donate = () => {
+    // Create a formData object with the necessary fields
+    const formData = {
+        bankId: bank, // ID of the bank to which the donation is made
+        units: units, // Amount of units being donated
+        disease: desc // Description of any disease (if applicable)
+    };
+
+    // Make a POST request to the server to submit the donation
+    //Includes Credentials: It includes the user's login credentials (like cookies) with the request to ensure the user is authenticated.
+    //axios.post("/user/donate", formData, { withCredentials: true }):sends the donation information (formData) to the server at the "/user/donate" endpoint.
+    axios.post("/user/donate", formData, { withCredentials: true })
+        .then((r) => {
+            // If the request is successful, show an alert message
             alert("Donation request sent successfully");
+            // Navigate the user to the donations page
             navigate("/user/donations");
-        }).catch((e) => {
+        })
+        .catch((e) => {
+            // If there's an error, show an alert message
             alert("Something went wrong");
         });
     };
-
+     //request food
     const request = () => {
         const formData = {
             bankId: bank,
@@ -165,6 +177,7 @@ const UserForm = () => {
                                 </select></td>
                         </tr>
                     </table>
+                    {/*searching blood bank to donate in filled district of state so that to select it to send request there */}
                     <BanksSearch state={data.states[state].state} district={data.states[state].districts[district]} setBank={setBank} />
                     <button
                         type="submit"

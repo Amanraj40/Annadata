@@ -4,24 +4,29 @@ import axios from "../Api"
 
 const Camps = () => {
 
-    const [state, setState] = useState(0);
-    const [district, setDistrict] = useState(0);
-    const [camps, setCamps] = useState([]);
+    const [state, setState] = useState(0);//initially state is 0
+    const [district, setDistrict] = useState(0);//initially district is 0
+    const [camps, setCamps] = useState([]);//camps is array which contains different camp as elements
+    //The useEffect hook is used to perform a side effect, in this case, fetching data, when the component mounts (i.e., is rendered for the first time).as [ ] present
     useEffect(() => {
         fetch(data.states[state].state, data.states[state].districts[district]);
     }, []);
-
+    
     const fetch = async (s, d) => {
+        //The fetch function is defined to make an HTTP GET request to the endpoint /camps/{s}/{d}.s and d are the state and district values passed as parameters to build the endpoint URL.
+        //This gets the data as response from server and the url input here is termed as url where client will gets info from server
+        //server will respond to get request at this given url location which is also called end point of url
         await axios.get(`/camps/${s}/${d}`).then((res) => {
-            setCamps(res.data);
+            setCamps(res.data);//If the request is successful (then block), the function sets the camps state to the response data (res.data) using setCamps(res.data).
         }).catch((err) => {
             alert("Something went wrong")
         });
+        //in summary, the useEffect hook triggers the fetch function to get data from an endpoint when the component mounts, and the fetch function handles the request and updates the state or shows an error message accordingly.
     }
 
-    const register = async (i) => {
+    const register = async (i) => {//i is id of bank to register a camp
         await axios.put(`/camps/${i}`).then((res) => {
-            alert("Registered for blood bank");
+            alert("Registered for Food bank");
         }).catch((e) => {
             alert("Something went wrong");
         })

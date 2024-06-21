@@ -13,8 +13,8 @@ const EditProfile = () => {
     const [mail, setMail] = useState("");
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
-    const [state, setState] = useState(0);
-    const [district, setDistrict] = useState(0);
+    const [state, setState] = useState(0);//store index of state
+    const [district, setDistrict] = useState(0);//store index of district
     const [address, setAddress] = useState("");
     const [food, setFood] = useState(0);
     const [edit, setEdit] = useState(true);
@@ -25,13 +25,17 @@ const EditProfile = () => {
         setGender(user.gender);
         setMail(user.email);
         setPhone(user.phone);
+        //It goes through each element e in the data.states array and gets the index i of that element.
         data.states.map((e, i) => {
+            //if any state matches with the state input by user ie user.state then update that index of state
             if (e.state === user.state) {
-                setState(i);
-                setDistrict(e.districts.indexOf(user.district));
+                setState(i);//setState(i) :to update the state index to the current index i
+                setDistrict(e.districts.indexOf(user.district));//finds index of district as input by user as user.district and set that index
             }
+            //In summary, this code is finding the state and district indexes in data.
+            //states that match the user's state and district, and updating the component’s state with those indexes.
         });
-        setPassword("Lorem ipsum dolor sit amet consectetur adipisicing elit.");
+        setPassword("Lorem ipsum dolor sit amet consectetur adipisicing elit.");//default password
         setAddress(user.address);
         setFood(foodGroups.indexOf(user.foodGroup));
     }, []);
@@ -48,11 +52,11 @@ const EditProfile = () => {
             district: data.states[state].districts[district],
             address: address,
         };
-
+        //update data on server side fron formData
         await axios.put(`/user/`, formData)
             .then(async (response) => {
-                setEdit(!edit);
-                await getLoggedIn();
+                setEdit(!edit);//after edit make edit=false
+                await getLoggedIn();//after updation on database edit again will become true so that it can be edited again
                 alert("User updated successfully");
 
             }, (error) => {

@@ -3,11 +3,14 @@ import axios from "../Api";
 import mapboxgl from "mapbox-gl";
 import Popup from '../Util/Popup';
 
+//selecting bloodbank to donate blood by the user .There can be more then one blood banks available at its location,the user can select any one
+
 const BanksSearch = (props) => {
     const [popup, setPopup] = useState(-1);
-    const [data, setData] = useState([]);
-    const [selected, setSelected] = useState(-1);
-    useEffect(() => {
+    const [data, setData] = useState([]);//data contains user details
+    const [selected, setSelected] = useState(-1);//selected is initially -1
+    useEffect(() => {// set data using post request 
+        //update data whenever state or district changes
         axios.post('/bank/user', props, { withCredentials: true }).then(async (res) => {
             setData(res.data);
         }, (error) => {
@@ -30,10 +33,13 @@ const BanksSearch = (props) => {
                 <tbody className="p-3">
                     {data.length ?
                         data.map(
-                            (e, i) => (
+                            (e, i) => (//Each element e has a unique key attribute (key={i}) where i is the index of the element in the data array.
                                 <tr
                                     key={i}
                                     className="hover:bg-red hover:text-white-900 p-3 cursor-pointer"
+                                    //onClick handler toggles the selected state (using setSelected) based on whether the row is already selected (selected == i).
+                                    //If selected is currently equal to i (the index of the clicked row), it sets selected to -1, effectively deselecting any previously selected row.
+                        //If selected is not equal to i (meaning the clicked row is different from the currently selected row), it sets selected to i, indicating that this row is now selected.
                                     onClick={() => { setSelected(selected == i ? -1 : i); props.setBank(selected == i ? "" : e._id) }}
                                 >
                                     <td className="py-2 px-4 border">{e.name}</td>
@@ -54,7 +60,9 @@ const BanksSearch = (props) => {
                         ) : <tr><td colSpan={4} className='text-center text-md font-bold my-6'>No Data Found</td></tr>}
                 </tbody>
             </table>
+            {/*Popup component, providing a versatile and reusable way to display information or actions related to specific items. */}
             <Popup popup={popup} setPopup={setPopup} data={data[popup]} handle="Blood Bank" />
+            
         </div >
     );
 }

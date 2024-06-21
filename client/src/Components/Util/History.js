@@ -12,7 +12,7 @@ const History = (props) => {
     const choices = ["All", 'Pending', 'Approved', 'Denied', props.handle == "donations" ? 'Donated' : "Completed"];
     const [id, setId] = useState(-1);
     const [newStat, setnewStat] = useState("");
-    useEffect(() => {
+    useEffect(() => {//withCredentials: true in Axios tells the browser to include any cookies or authorization headers with your requests, especially when making requests to a different domain
         axios.get(`/${props.user}/${props.handle}`, { withCredentials: true }).then((r) => {
             setData(r.data);
         }).catch((e) => {
@@ -32,8 +32,12 @@ const History = (props) => {
                 <span className='text-lg'>Status:</span> <select name="status" id="status" onChange={(e) => setStatus(e.target.value)}
                     className={'border-2 px-2 mb-2 rounded-xl hover:shadow-md cursor-pointer'}
                 >
-                    {
+                    {   
+                    //value={e} :ThisGenerates an <option> element for each element e in choices.
+                    //choices.map((e) => : maps over each element e in the choices array.
                         choices.map((e) =>
+                            //selected={status === e}:if status is equal to e. If true, this <option> will be selected by default.
+                           //e}: Displays the text of e inside the <option> element.
                             <option value={e} selected={status === e}>{e}</option>
                         )
                     }
@@ -97,6 +101,7 @@ const History = (props) => {
                             </tr>
                         )
                     }
+                    
                 </tbody>
             </table>
             <Popup popup={popup} setPopup={setPopup} data={popup == -1 ? [] : props.user == "bank" ? data[popup].userId : data[popup].bankId} handle={props.user == "bank" ? "User" : "Food Bank"} />

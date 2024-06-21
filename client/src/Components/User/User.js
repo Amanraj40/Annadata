@@ -8,6 +8,7 @@ import Camps from './Camps';
 
 const User = () => {
     const { handle } = useParams();
+    //it is just a nav data ,it will be called in userNav file where <Link is attached with it to navigate to particular end
     const nav = [{ to: "/user/profile", icon: "fa-user", title: "My Profile" },
     { to: "/user/donate", icon: "fa-hand-holding-medical", title: "Donate Food" },
     { to: "/user/donations", icon: "fa-clock-rotate-left", title: "Donation History" },
