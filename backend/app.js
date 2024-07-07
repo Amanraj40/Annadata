@@ -23,7 +23,7 @@ app.use(express.json());
 // Use CORS middleware to allow cross-origin requests from specified origins
 app.use(
 	//You have a frontend web application running on http://localhost:3000 and a backend server running on http://localhost:5000. The frontend needs to make a request to the backend to fetch some data.
-	//CORS allows cross-origin requests, enabling the frontend and backend to communicate despite being on different origins.
+	//CORS allows cross-origin requests, enabling the fron tend and backend to communicate despite being on different origins.
     cors({
         origin: [
 			//origin: ["http://localhost:3000"]: This specifies the origins that are allowed to access the resources of your server. Here, only requests from http://localhost:3000 are allowed. This is useful during development when your client-side application runs on localhost:3000 and your server runs on a different port.
@@ -38,7 +38,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
     console.log(e ? e : "Connected successfully to database"); // Log connection status
 });
 
-// Define routes and associate them with their respective routers
+// Define routes and associate them with their respective routers 
 app.use("/auth", require("./routers/authRouter")); // Routes for authentication
 app.use("/user", require("./routers/userRouter")); // Routes for user operations
 app.use("/bank", require("./routers/bankRouter")); // It directs any request that starts with /bank (like /bank/transfer or /bank/balance) to be handled by the code in bankRouter.The bankRouter file contains all the routes and logic for bank-related tasks.o, if a user tries to check their balance by accessing /bank/balance, the app will use the bankRouter to handle that request.
