@@ -4,8 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "qwerty": "nodemon app.js"
+    "start": "node app.js",
+    "dev": "concurrently \"nodemon app.js\" \"npm run client --prefix ../frontend\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -26,5 +27,8 @@
     "passport-google-oauth20": "^1.0.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^5.0.1"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }

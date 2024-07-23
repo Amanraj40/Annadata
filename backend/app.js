@@ -34,7 +34,7 @@ app.use(
 );
 
 // Connect to MongoDB using Mongoose
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }, (e) => {
+mongoose.connect("mongodb://127.0.0.1:27017/annadata", { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }, (e) => {
     console.log(e ? e : "Connected successfully to database"); // Log connection status
 });
 
