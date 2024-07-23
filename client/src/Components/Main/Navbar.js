@@ -84,9 +84,9 @@ const Navbar = (props) => {
                                 </>
                             ) : (
                                 <>
-                                    <DropDown title="Looking For Blood" children={["User Login/Register", "Food Bank Directory"]} links={["/register/patient", "/bloodDirect"]}></DropDown>
-                                    <DropDown title="Want To Donate Blood" children={[" Food Donor Login/Register", "Food Donation Camps", "About Food Donation"]} links={["/register/donor", "/bloodCamps", "/aboutBloodDonation"]}></DropDown>
-                                    <DropDown title="Blood Bank Login" children={["Login", "Add Your Bloodbank"]} links={["/login/bank", "/register/bank"]}></DropDown>
+                                    <DropDown title="Looking For Food" children={["User Login/Register", "Food Bank Directory"]} links={["/register/patient", "/bloodDirect"]}></DropDown>
+                                    <DropDown title="Want To Donate Food" children={[" Food Donor Login/Register", "Food Donation Camps", "About Food Donation"]} links={["/register/donor", "/bloodCamps", "/aboutBloodDonation"]}></DropDown>
+                                    <DropDown title="Food Bank Login" children={["Login", "Add Your Food Bank"]} links={["/login/bank", "/register/bank"]}></DropDown>
                                 </>
                             )}
                             
