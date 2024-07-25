@@ -20,17 +20,17 @@ const Contact = () => {
     ];
     return (
         <div className='px-64'><br />
-            <h1 className='text-center text-3xl font-bold'>Contact Details</h1><br />
+            <h1 className='text-center text-3xl font-bold' style={{color:"red"}}>Contact Details</h1><br />
             <div className='flex justify-around'>
                 <div>
                     {
                         data.map((e) => {
                             return (
                                 <>
-                                    <p className='text-xl font-bold underline'>{e.title}</p><br />
+                                    <p className='text-xl font-bold underline' style={{color:"red"}}>{e.title}</p><br />
                                     <code>
                                         {e.body.map((k) => {
-                                            return <p className='text-md'>{k}</p>
+                                            return <p className='text-md' style={{color:"green"}}>{k}</p>
                                         })}
                                     </code><br />
                                 </>

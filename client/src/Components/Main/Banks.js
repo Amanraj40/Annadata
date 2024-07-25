@@ -38,29 +38,29 @@ const Banks = () => {
             <br />
             <table className='w-full text-center'>
                 <thead>
-                    <th className="p-3 text-md border border-silver rounded">Food Bank Name</th>
-                    <th className="p-3 text-md border border-silver rounded">Parent Organisation</th>
-                    <th className="p-3 text-md border border-silver rounded">Category</th>
-                    <th className="p-3 text-md border border-silver rounded">State</th>
-                    <th className="p-3 text-md border border-silver rounded">District</th>
-                    <th className="p-3 text-md border border-silver rounded">Address</th>
-                    <th className="p-3 text-md border border-silver rounded">Contact</th>
-                    <th className="p-3 text-md border border-silver rounded">Website</th>
-                    <th className="p-3 text-md border border-silver rounded">Email</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:'green'}}>Food Bank Name</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"green"}}>Parent Organisation</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"green"}}>Category</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"green"}}>State</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"green"}}>District</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"green"}}>Address</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"green"}}>Contact</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"green"}}>Website</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"green"}}>Email</th>
                 </thead>
                 <tbody>
                     {    //all bank details are written here and can be filtered on basis of state and district,its filter code is written in backend
                         filtered.map((e) =>
                             <tr>        
-                                <td className="p-3 text-md border border-silver rounded">{e.name}</td>
-                                <td className="p-3 text-md border border-silver rounded">{e.organisation}</td>
-                                <td className="p-3 text-md border border-silver rounded">{e.category}</td>
-                                <td className="p-3 text-md border border-silver rounded">{e.state}</td>
-                                <td className="p-3 text-md border border-silver rounded">{e.district}</td>
-                                <td className="p-3 text-md border border-silver rounded">{e.address}</td>
-                                <td className="p-3 text-md border border-silver rounded">{e.phone}</td>
-                                <td className="p-3 text-md border border-silver rounded">{e.website}</td>
-                                <td className="p-3 text-md border border-silver rounded">{e.email}</td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"green"}}>{e.name}</td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"green"}}>{e.organisation}</td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"green"}}>{e.category}</td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"green"}}>{e.state}</td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"green"}}>{e.district}</td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"green"}}>{e.address}</td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"green"}}>{e.phone}</td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"green"}}>{e.website}</td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"green"}}>{e.email}</td>
                             </tr>
                         )
                     }

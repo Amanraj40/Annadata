@@ -17,14 +17,14 @@ const Camps = () => {
         <div className='px-7'>
             <table cellPadding={7}>
                 <tr>
-                    <td><label for="state" className="font-semibold  leading-8">State:<font color="red">*</font></label>
+                    <td><label for="state" className="font-semibold  leading-8" style={{color:"greenyellow"}}>State:<font color="red">*</font></label>
                         <select name="state" id="state" onChange={(e) => { setState(e.target.value); setDistrict(0); }} className="w-full p-3 text-md border border-silver rounded">
                             {    //select state of camp
                                 data.states.map((e, i) => <option value={i} selected={state === i}>{e.state}</option>)
                             }
                         </select>
                     </td>
-                    <td><label for="district" className="font-semibold  leading-8">District:<font color="red">*</font></label>
+                    <td><label for="district" className="font-semibold  leading-8" style={{color:"greenyellow"}}>District:<font color="red">*</font></label>
                         <select name="district" id="district" onChange={(e) => { setDistrict(e.target.value); }} className="w-full p-3 text-md border border-silver rounded">
                             {   //select discrict of bank corresponding to state
                                 data.states[state].districts.map((e, i) => <option value={i} selected={district === i}>{e}</option>)
@@ -32,7 +32,7 @@ const Camps = () => {
                         </select>
                     </td>
                     <td>
-                        <label for="district" className="font-semibold  leading-8">Date:<font color="red">*</font></label>
+                        <label for="district" className="font-semibold  leading-8" style={{color:"greenyellow"}}>Date:<font color="red">*</font></label>
                         <input type="date" value={date} className="w-full p-3 text-md border border-silver rounded"
                                  //set date
                             min={new Date().toISOString().split("T")[0]}
@@ -44,29 +44,29 @@ const Camps = () => {
             <br />
             <table className='w-full text-center'>
                 <thead>
-                    <th className="p-3 text-md border border-silver rounded">Date</th>
-                    <th className="p-3 text-md border border-silver rounded">Camp Name</th>
-                    <th className="p-3 text-md border border-silver rounded">Address</th>
-                    <th className="p-3 text-md border border-silver rounded">State</th>
-                    <th className="p-3 text-md border border-silver rounded">District</th>
-                    <th className="p-3 text-md border border-silver rounded">Contact</th>
-                    <th className="p-3 text-md border border-silver rounded">Conducted By</th>
-                    <th className="p-3 text-md border border-silver rounded">Organized By</th>
-                    <th className="p-3 text-md border border-silver rounded">Time</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}>Date</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}>Camp Name</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}>Address</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}>State</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}>District</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}>Contact</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}>Conducted By</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}>Organized By</th>
+                    <th className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}>Time</th>
                 </thead>
                 <tbody>
                     {   // printing camp data in filter section as all data is written oveer there and filter function is written in backend
                         filtered.map((e) =>
                             <tr>
                                 <td className="p-3 text-md border border-silver rounded">{new Date(e.date).toLocaleDateString()}</td>
-                                <td className="p-3 text-md border border-silver rounded">{e.name}</td>
-                                <td className="p-3 text-md border border-silver rounded">{e.address}</td>
-                                <td className="p-3 text-md border border-silver rounded">{e.state}</td>
-                                <td className="p-3 text-md border border-silver rounded">{e.district}</td>
-                                <td className="p-3 text-md border border-silver rounded">{e.contact}</td>
-                                <td className="p-3 text-md border border-silver rounded">{e.bankId.name}</td>
-                                <td className="p-3 text-md border border-silver rounded">{e.organizer}</td>
-                                <td className="p-3 text-md border border-silver rounded"><code>{e.startTime}-{e.endTime}</code></td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}>{e.name}</td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}>{e.address}</td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}>{e.state}</td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}>{e.district}</td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}>{e.contact}</td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}>{e.bankId.name}</td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}>{e.organizer}</td>
+                                <td className="p-3 text-md border border-silver rounded" style={{color:"greenyellow"}}><code>{e.startTime}-{e.endTime}</code></td>
                             </tr>
                         )
                     }
