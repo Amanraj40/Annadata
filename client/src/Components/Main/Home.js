@@ -3,7 +3,7 @@ import bg from "../../assets/bg.png";
 import bg2 from "../../assets/bg2.webp";
 import donationFact from "../../assets/abc.jpg"
 import g1 from "../../assets/donation/g1.jpg"
-import g2 from "../../assets/donation/g2.jpg"
+import g2 from "../../assets/donation/g2.webp"
 import g3 from "../../assets/donation/g3.jpg"
 import g4 from "../../assets/donation/g4.jpg"
 const Home = () => {

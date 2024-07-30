@@ -1,6 +1,6 @@
 import React from 'react'
 import g1 from "../../assets/donation/g1.jpg"
-import g2 from "../../assets/donation/g2.jpg"
+import g2 from "../../assets/donation/g2.webp"
 import g3 from "../../assets/donation/g3.jpg"
 import g4 from "../../assets/donation/g4.jpg"
 
